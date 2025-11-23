@@ -9,9 +9,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/pontus-devoteam/agent-sdk-go/pkg/agent"
-	"github.com/pontus-devoteam/agent-sdk-go/pkg/model"
-	"github.com/pontus-devoteam/agent-sdk-go/pkg/runner"
+	"github.com/citizenofai/agent-sdk-go/pkg/agent"
+	"github.com/citizenofai/agent-sdk-go/pkg/model"
+	"github.com/citizenofai/agent-sdk-go/pkg/runner"
 )
 
 // MockHandoffModelProvider is a mock implementation for multi-agent testing

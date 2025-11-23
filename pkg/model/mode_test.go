@@ -6,12 +6,12 @@ import (
 	"os"
 	"time"
 
-	"github.com/pontus-devoteam/agent-sdk-go/pkg/agent"
-	"github.com/pontus-devoteam/agent-sdk-go/pkg/model"
-	"github.com/pontus-devoteam/agent-sdk-go/pkg/model/providers/anthropic"
-	"github.com/pontus-devoteam/agent-sdk-go/pkg/model/providers/openai"
-	"github.com/pontus-devoteam/agent-sdk-go/pkg/runner"
-	"github.com/pontus-devoteam/agent-sdk-go/pkg/tool"
+	"github.com/citizenofai/agent-sdk-go/pkg/agent"
+	"github.com/citizenofai/agent-sdk-go/pkg/model"
+	"github.com/citizenofai/agent-sdk-go/pkg/model/providers/anthropic"
+	"github.com/citizenofai/agent-sdk-go/pkg/model/providers/openai"
+	"github.com/citizenofai/agent-sdk-go/pkg/runner"
+	"github.com/citizenofai/agent-sdk-go/pkg/tool"
 )
 
 func setupMultiAgent(providerName string) (*runner.Runner, *agent.Agent, model.Provider) {

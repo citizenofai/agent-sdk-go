@@ -3,9 +3,9 @@ package agent_test
 import (
 	"testing"
 
-	"github.com/pontus-devoteam/agent-sdk-go/pkg/agent"
-	"github.com/pontus-devoteam/agent-sdk-go/pkg/model"
-	"github.com/pontus-devoteam/agent-sdk-go/pkg/tool"
+	"github.com/citizenofai/agent-sdk-go/pkg/agent"
+	"github.com/citizenofai/agent-sdk-go/pkg/model"
+	"github.com/citizenofai/agent-sdk-go/pkg/tool"
 )
 
 // MockModelProvider is a mock implementation of model.Provider for testing

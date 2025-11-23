@@ -1,10 +1,10 @@
-module github.com/pontus-devoteam/agent-sdk-go
+module github.com/citizenofai/agent-sdk-go
 
 go 1.24.0
 
 toolchain go1.24.10
 
-replace github.com/pontus-devoteam/agent-sdk-go => ./
+replace github.com/citizenofai/agent-sdk-go => ./
 
 require (
 	github.com/stretchr/testify v1.11.1

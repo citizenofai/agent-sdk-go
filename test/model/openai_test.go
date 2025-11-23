@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/pontus-devoteam/agent-sdk-go/pkg/model"
-	"github.com/pontus-devoteam/agent-sdk-go/pkg/model/providers/openai"
+	"github.com/citizenofai/agent-sdk-go/pkg/model"
+	"github.com/citizenofai/agent-sdk-go/pkg/model/providers/openai"
 	"github.com/stretchr/testify/assert"
 )
 

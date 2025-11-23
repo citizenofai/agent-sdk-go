@@ -3,7 +3,7 @@ package mocks
 import (
 	"context"
 
-	"github.com/pontus-devoteam/agent-sdk-go/pkg/model"
+	"github.com/citizenofai/agent-sdk-go/pkg/model"
 	"github.com/stretchr/testify/mock"
 )
 

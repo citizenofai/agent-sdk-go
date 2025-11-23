@@ -7,8 +7,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/pontus-devoteam/agent-sdk-go/pkg/model"
-	"github.com/pontus-devoteam/agent-sdk-go/pkg/model/providers/anthropic"
+	"github.com/citizenofai/agent-sdk-go/pkg/model"
+	"github.com/citizenofai/agent-sdk-go/pkg/model/providers/anthropic"
 	"github.com/stretchr/testify/assert"
 )
 
