@@ -87,7 +87,8 @@ func TestOpenAIModel(t *testing.T) {
 					"total_tokens":      15,
 				},
 			}
-			json.NewEncoder(w).Encode(response)
+			err := json.NewEncoder(w).Encode(response)
+			assert.NoError(t, err)
 		}))
 		defer server.Close()
 
@@ -115,7 +116,9 @@ func TestOpenAIModel(t *testing.T) {
 		server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			// Parse request body to verify tools
 			var requestBody map[string]interface{}
-			json.NewDecoder(r.Body).Decode(&requestBody)
+			var err error
+			err = json.NewDecoder(r.Body).Decode(&requestBody)
+			assert.NoError(t, err)
 
 			// Verify tools are included
 			tools, ok := requestBody["tools"].([]interface{})
@@ -151,7 +154,8 @@ func TestOpenAIModel(t *testing.T) {
 					"total_tokens": 15,
 				},
 			}
-			json.NewEncoder(w).Encode(response)
+			err = json.NewEncoder(w).Encode(response)
+			assert.NoError(t, err)
 		}))
 		defer server.Close()
 
@@ -193,12 +197,13 @@ func TestOpenAIModel(t *testing.T) {
 		// Create a test server that returns an error
 		server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusTooManyRequests)
-			json.NewEncoder(w).Encode(map[string]interface{}{
+			err := json.NewEncoder(w).Encode(map[string]interface{}{
 				"error": map[string]interface{}{
 					"message": "Rate limit exceeded",
 					"type":    "rate_limit_error",
 				},
 			})
+			assert.NoError(t, err)
 		}))
 		defer server.Close()
 
@@ -225,7 +230,9 @@ func TestOpenAIModel(t *testing.T) {
 		server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			// Verify streaming is requested
 			var requestBody map[string]interface{}
-			json.NewDecoder(r.Body).Decode(&requestBody)
+			var err error
+			err = json.NewDecoder(r.Body).Decode(&requestBody)
+			assert.NoError(t, err)
 			assert.True(t, requestBody["stream"].(bool))
 
 			// Write SSE response
@@ -243,11 +250,13 @@ func TestOpenAIModel(t *testing.T) {
 			}
 
 			for _, event := range events {
-				w.Write([]byte("data: " + event + "\n\n"))
+				_, err = w.Write([]byte("data: " + event + "\n\n"))
+				assert.NoError(t, err)
 				flusher.Flush()
 				time.Sleep(10 * time.Millisecond)
 			}
-			w.Write([]byte("data: [DONE]\n\n"))
+			_, err = w.Write([]byte("data: [DONE]\n\n"))
+			assert.NoError(t, err)
 		}))
 		defer server.Close()
 

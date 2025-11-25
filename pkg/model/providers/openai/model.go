@@ -328,7 +328,14 @@ func (m *Model) streamResponseOnce(ctx context.Context, request *model.Request, 
 	if err != nil {
 		return fmt.Errorf("failed to send request: %w", err)
 	}
-	defer httpResponse.Body.Close()
+	defer func() {
+		if closeErr := httpResponse.Body.Close(); closeErr != nil {
+			// If we already have an error, keep it as the primary error
+			if err == nil {
+				err = fmt.Errorf("error closing response body: %w", closeErr)
+			}
+		}
+	}()
 
 	// Check for errors
 	if httpResponse.StatusCode != http.StatusOK {

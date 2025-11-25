@@ -355,7 +355,14 @@ func (m *Model) streamResponseOnce(ctx context.Context, request *model.Request, 
 	if err != nil {
 		return fmt.Errorf("failed to send request: %w", err)
 	}
-	defer httpResponse.Body.Close()
+	defer func() {
+		if closeErr := httpResponse.Body.Close(); closeErr != nil {
+			// If we already have an error, keep it as the primary error
+			if err == nil {
+				err = fmt.Errorf("error closing response body: %w", closeErr)
+			}
+		}
+	}()
 
 	// Check for errors
 	if httpResponse.StatusCode != http.StatusOK {
@@ -497,17 +504,14 @@ func (m *Model) streamResponseOnce(ctx context.Context, request *model.Request, 
 							ToolCall: currentToolCall,
 						}
 					}
-					break
 				default:
 					// End of message
-					break
 				}
 			}
 			continue
 
 		case "message_stop":
 			// Message stop event
-			break
 
 		case "error":
 			// Error event
@@ -646,7 +650,7 @@ func (m *Model) constructRequest(request *model.Request) (*AnthropicMessageReque
 
 // addHandoffToolsToRequest adds handoff tools to the request
 func (m *Model) addHandoffToolsToRequest(request *model.Request, tools *[]AnthropicTool) error {
-	if request.Handoffs == nil || len(request.Handoffs) == 0 {
+	if len(request.Handoffs) == 0 {
 		return nil
 	}
 
