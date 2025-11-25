@@ -91,6 +91,11 @@ func (p *Provider) WithRetryConfig(maxRetries int, retryAfter time.Duration) *Pr
 	return p
 }
 
+// SetDefaultModel sets the default model for the provider
+func (p *Provider) SetDefaultModel(modelName string) *Provider {
+	return p.WithDefaultModel(modelName)
+}
+
 // GetModel returns a model by name, satisfying model.Provider.
 func (p *Provider) GetModel(name string) (model.Model, error) {
 	p.mu.Lock()
