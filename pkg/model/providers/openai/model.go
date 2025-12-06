@@ -925,7 +925,7 @@ func applyModelSettings(chatRequest *ChatCompletionRequest, settings *model.Sett
 
 	// Check if the model supports these parameters
 	// o1 series and gpt-5.1 series do not support temperature, top_p, frequency_penalty, presence_penalty
-	isO1OrGPT5 := strings.HasPrefix(chatRequest.Model, "o1-") || strings.HasPrefix(chatRequest.Model, "gpt-5.1-")
+	isO1OrGPT5 := strings.HasPrefix(chatRequest.Model, "o1-") || strings.HasPrefix(chatRequest.Model, "gpt-5")
 
 	if settings.Temperature != nil && !isO1OrGPT5 {
 		chatRequest.Temperature = *settings.Temperature
@@ -942,7 +942,7 @@ func applyModelSettings(chatRequest *ChatCompletionRequest, settings *model.Sett
 	if settings.MaxTokens != nil {
 		chatRequest.MaxCompletionTokens = *settings.MaxTokens
 	}
-	if settings.ToolChoice != nil {
+	if settings.ToolChoice != nil && len(chatRequest.Tools) > 0 {
 		// Handle tool_choice parameter
 		if *settings.ToolChoice == "auto" || *settings.ToolChoice == "none" {
 			chatRequest.ToolChoice = *settings.ToolChoice

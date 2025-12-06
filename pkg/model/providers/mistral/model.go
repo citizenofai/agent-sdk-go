@@ -121,9 +121,9 @@ func (m *Model) getResponseOnce(ctx context.Context, request *model.Request) (*m
 	}
 	if params.Tools != nil {
 		requestData["tools"] = params.Tools
-	}
-	if params.ToolChoice != "" {
-		requestData["tool_choice"] = params.ToolChoice
+		if params.ToolChoice != "" {
+			requestData["tool_choice"] = params.ToolChoice
+		}
 	}
 	if params.ResponseFormat != "" {
 		requestData["response_format"] = map[string]any{"type": params.ResponseFormat}

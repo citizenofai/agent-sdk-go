@@ -603,7 +603,7 @@ func (m *Model) constructRequest(request *model.Request) (*AnthropicMessageReque
 
 		// Anthropic handles tool_choice differently from OpenAI
 		// Only set it if it's explicitly in a format Anthropic understands
-		if request.Settings != nil && request.Settings.ToolChoice != nil {
+		if request.Settings != nil && request.Settings.ToolChoice != nil && len(anthropicRequest.Tools) > 0 {
 			toolChoice := *request.Settings.ToolChoice
 
 			// Handle different formats of tool_choice based on Anthropic API docs
