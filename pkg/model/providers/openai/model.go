@@ -65,16 +65,16 @@ type ChatToolFunction struct {
 
 // ChatCompletionRequest represents a request to the chat completions API
 type ChatCompletionRequest struct {
-	Model            string        `json:"model"`
-	Messages         []ChatMessage `json:"messages"`
-	Tools            []ChatTool    `json:"tools,omitempty"`
-	ToolChoice       interface{}   `json:"tool_choice,omitempty"`
-	Temperature      float64       `json:"temperature,omitempty"`
-	TopP             float64       `json:"top_p,omitempty"`
-	FrequencyPenalty float64       `json:"frequency_penalty,omitempty"`
-	PresencePenalty  float64       `json:"presence_penalty,omitempty"`
-	MaxTokens        int           `json:"max_tokens,omitempty"`
-	Stream           bool          `json:"stream,omitempty"`
+	Model               string        `json:"model"`
+	Messages            []ChatMessage `json:"messages"`
+	Tools               []ChatTool    `json:"tools,omitempty"`
+	ToolChoice          interface{}   `json:"tool_choice,omitempty"`
+	Temperature         float64       `json:"temperature,omitempty"`
+	TopP                float64       `json:"top_p,omitempty"`
+	FrequencyPenalty    float64       `json:"frequency_penalty,omitempty"`
+	PresencePenalty     float64       `json:"presence_penalty,omitempty"`
+	MaxCompletionTokens int           `json:"max_completion_tokens,omitempty"`
+	Stream              bool          `json:"stream,omitempty"`
 }
 
 // ChatCompletionResponse represents a response from the chat completions API
@@ -684,11 +684,12 @@ func processInputList(chatRequest *ChatCompletionRequest, inputList []interface{
 	for _, item := range inputList {
 		if message, ok := item.(map[string]interface{}); ok {
 			// Handle different message types
-			if message["type"] == "message" {
+			switch message["type"] {
+			case "message":
 				// Add a regular message
 				chatMessage := createChatMessageFromMap(message)
 				chatRequest.Messages = append(chatRequest.Messages, chatMessage)
-			} else if message["type"] == "tool_result" {
+			case "tool_result":
 				// Add a tool result message
 				toolResultMessage := createToolResultMessage(message)
 				if toolResultMessage != nil {
@@ -935,7 +936,7 @@ func applyModelSettings(chatRequest *ChatCompletionRequest, settings *model.Sett
 		chatRequest.PresencePenalty = *settings.PresencePenalty
 	}
 	if settings.MaxTokens != nil {
-		chatRequest.MaxTokens = *settings.MaxTokens
+		chatRequest.MaxCompletionTokens = *settings.MaxTokens
 	}
 	if settings.ToolChoice != nil {
 		// Handle tool_choice parameter
