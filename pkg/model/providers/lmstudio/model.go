@@ -572,7 +572,7 @@ func applyModelSettings(chatRequest *ChatCompletionRequest, settings *model.Sett
 	if settings.MaxTokens != nil {
 		chatRequest.MaxTokens = *settings.MaxTokens
 	}
-	if settings.ToolChoice != nil {
+	if settings.ToolChoice != nil && len(chatRequest.Tools) > 0 {
 		// Handle tool_choice parameter
 		if *settings.ToolChoice == "auto" || *settings.ToolChoice == "none" {
 			chatRequest.ToolChoice = *settings.ToolChoice
